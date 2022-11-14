@@ -1,31 +1,33 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "shell.h"
 
 /**
- * main - Split a string into word
- *
- * Return: 0
- */
-
-int main(void)
+* _strtok - tokenizes string
+* @str: the string to tokenize
+*
+* Return: pointer to array of tokens
+*/
+char **_strtok(char *str)
 {
-	char *buffer = malloc(1024);
-	size_t len = 1024;
+	char **tokens;
 	char *token;
+	unsigned int i;
 
-	while (1)
+	tokens = malloc(sizeof(char) * BUFFER);
+	if (tokens == NULL)
+		exit(0);
+
+	token = strtok(str, " ");
+
+	i = 0;
+	while (token != NULL)
 	{
-		printf("$ ");
-		getline(&buffer, &len, stdin);
-		printf("buffer getline: %s", buffer);
-
-		token = strtok(buffer, " ");
-		while (token)
-		{
-			printf("buffer strtok: %s\n", token);
-			token = strtok(NULL, " ");
-		}
+		tokens[i] = token;
+		token = strtok(NULL, " ");
+		i++;
 	}
-	return (0);
+
+	tokens[i] = NULL;
+
+	return (tokens);
 }
+
